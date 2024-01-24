@@ -20,7 +20,7 @@
 //
 // No hints this time!
 
-// I AM NOT DONE
+#[derive(Debug)]
 
 pub enum Command {
     Uppercase,
@@ -30,12 +30,16 @@ pub enum Command {
 
 mod my_module {
     use super::Command;
-
     // TODO: Complete the function signature!
-    pub fn transformer(input: ???) -> ??? {
+    pub fn transformer(mut input: Vec<(String, Command)>) -> Vec<String> {
         // TODO: Complete the output declaration!
-        let mut output: ??? = vec![];
+        let mut output: Vec<String> = vec![];
         for (string, command) in input.iter() {
+            match command {
+                Command::Uppercase => output.push(string.to_ascii_uppercase()),
+                Command::Trim => output.push(string.trim().to_string()),
+                Command::Append(usize) =>  output.push(string.to_string() + &"bar".repeat(*usize)),
+            };
             // TODO: Complete the function body. You can do it!
         }
         output
@@ -45,8 +49,8 @@ mod my_module {
 #[cfg(test)]
 mod tests {
     // TODO: What do we need to import to have `transformer` in scope?
-    use ???;
     use super::Command;
+    use crate::my_module::transformer;
 
     #[test]
     fn it_works() {
@@ -56,9 +60,10 @@ mod tests {
             ("foo".into(), Command::Append(1)),
             ("bar".into(), Command::Append(5)),
         ]);
-        assert_eq!(output[0], "HELLO");
-        assert_eq!(output[1], "all roads lead to rome!");
-        assert_eq!(output[2], "foobar");
-        assert_eq!(output[3], "barbarbarbarbarbar");
+        println!("{}",output[0]);
+        assert_eq!(output[0].as_str(), "HELLO");
+        assert_eq!(output[1].as_str(), "all roads lead to rome!");
+        assert_eq!(output[2].as_str(), "foobar");
+        assert_eq!(output[3].as_str(), "barbarbarbarbarbar");
     }
 }
